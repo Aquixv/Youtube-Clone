@@ -12,7 +12,7 @@ border-radius: 5px;
 .card h2{
 font-size: 16px;
 font-weight: 600;
-color: #0000;
+color: #0f0f0fa8;
 margin: 5px 0;
 }
 .card h3{
@@ -23,4 +23,19 @@ margin: 6px 0;
 }
 .card p{
 font-size: 14px;
+}
+.dot-separator {
+  font-size: 10px; 
+  vertical-align: middle;
+  margin: 0 5px; 
+  color: #606060;
+}
+.load-more-btn{
+background-color: #FF0000;
+color: white;
+border: none;
+border-radius: 4px;
+height: 5vh;
+width: 15vw;
+margin-top: 10px;
 }
