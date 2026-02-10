@@ -52,7 +52,7 @@
         max-width: 100%;
     }
 }
-@media (max-width: 600px) {
+/* @media (max-width: 600px) {
     .nav-middle .search-box input {
         display: none;
     }
@@ -63,4 +63,4 @@
     .nav-left .logo {
         width: 100px; 
     }
-}
+} */
