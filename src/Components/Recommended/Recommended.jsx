@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Recommended.css'
+import { Link } from 'react-router-dom'
 import thumbnail1 from '../../assets/thumbnail1.png'
 import thumbnail2 from '../../assets/thumbnail2.png'
 import thumbnail3 from '../../assets/thumbnail3.png'
@@ -15,77 +16,30 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 const Recommended = ({categoryId}) => {
 
-    const [apiData, setapiData] = useState([])
+    const [Recommendedvid, setRecommendedvid] = useState([])
 
-    const fetchData = async (params) => {
-        const relatedVideo_url = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=US&videoCategoryId=${category}&key=${API_KEY}`;
+    const fetchData = async () => {
+        const relatedVideo_url = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=50&regionCode=US&videoCategoryId=${categoryId}&key=${API_KEY}`;
+  await fetch(relatedVideo_url).then(res => res.json()).then(data => setRecommendedvid(data.items))
     }
+    useEffect(() => {
+        fetchData();
+    },[])
   return (
     <div className='recommended'>
-        <div className="side-video-list">
-            <img src= {thumbnail1} alt="" />
+        {Recommendedvid.map((item, index) => {
+        return(
+             <Link to={`/video/${item.snippet.categoryId}/${item.id}`} key={index} className="side-video-list">
+            <img src= {item.snippet.thumbnails.medium.url} alt="" />
             <div className="vid-info">
-                <h4>Youtube from Temu</h4>
-                <p>TemuBeast</p>
-                <p>10k Views</p>
+                <h4>{item.snippet.title}</h4>
+                <p className='p1'>{item.snippet.channelTitle}</p>
+                <p>{Value_Converter(item.statistics.viewCount)}</p>
             </div>
-        </div>
-        <div className="side-video-list">
-            <img src= {thumbnail2} alt="" />
-            <div className="vid-info">
-                <h4>Youtube from Temu</h4>
-                <p>TemuBeast</p>
-                <p>10k Views</p>
-            </div>
-        </div>
-        <div className="side-video-list">
-            <img src= {thumbnail3} alt="" />
-            <div className="vid-info">
-                <h4>Youtube from Temu</h4>
-                <p>TemuBeast</p>
-                <p>10k Views</p>
-            </div>
-        </div>
-        <div className="side-video-list">
-            <img src= {thumbnail4} alt="" />
-            <div className="vid-info">
-                <h4>Youtube from Temu</h4>
-                <p>TemuBeast</p>
-                <p>10k Views</p>
-            </div>
-        </div>
-        <div className="side-video-list">
-            <img src= {thumbnail5} alt="" />
-            <div className="vid-info">
-                <h4>Youtube from Temu</h4>
-                <p>TemuBeast</p>
-                <p>10k Views</p>
-            </div>
-        </div>
-        <div className="side-video-list">
-            <img src= {thumbnail6} alt="" />
-            <div className="vid-info">
-                <h4>Youtube from Temu</h4>
-                <p>TemuBeast</p>
-                <p>10k Views</p>
-            </div>
-        </div>
-        <div className="side-video-list">
-            <img src= {thumbnail7} alt="" />
-            <div className="vid-info">
-                <h4>Youtube from Temu</h4>
-                <p>TemuBeast</p>
-                <p>10k Views</p>
-            </div>
-        </div>
-        <div className="side-video-list">
-            <img src= {thumbnail8} alt="" />
-            <div className="vid-info">
-                <h4>Youtube from Temu</h4>
-                <p>TemuBeast</p>
-                <p>10k Views</p>
-            </div>
-        </div>
+        </Link>
+        )
+        })}
+       
     </div>
   )
 }

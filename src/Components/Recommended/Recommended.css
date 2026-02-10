@@ -17,3 +17,17 @@ flex-basis: 49%;
 margin-bottom: 5px;
 font-size: 14px;
 }
+.vid-info .p1{
+margin-bottom: 8px;
+font-size: 14px;
+font-weight: 500;
+}
+.vid-info p{
+margin-bottom: 8px;
+font-size: 12px;
+}
+@media (max-width:900px) {
+    .recommended{
+        flex-basis: 100%;
+    }
+}

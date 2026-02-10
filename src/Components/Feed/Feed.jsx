@@ -32,8 +32,6 @@ const Feed = ({ category }) => {
         const response = await fetch(videoList_url);
         const result = await response.json();
 
-        // If pageToken is empty, it's a new category (replace data)
-        // If pageToken exists, append the new items to the old list
         setData(prev => pageToken === "" ? result.items : [...prev, ...result.items]);
         
         // Store the token for the next 50 results

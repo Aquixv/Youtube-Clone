@@ -12,30 +12,42 @@ import { comm_Converter, subs_Converter, Value_Converter } from '../../../conver
 import { like_Converter} from '../../../convert'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { data } from 'react-router-dom'
+import { data, useParams } from 'react-router-dom'
 dayjs.extend(relativeTime); 
 const API_KEY = import.meta.env.VITE_API_KEY;
-const PlayVideo = ({videoId}) => {
-
+const PlayVideo = () => {
+    const {videoId} = useParams();
     const [apiData,setApiData] = useState(null);
     const [channelData, setChannelData] = useState(null)
     const [commentData, setcommentData] = useState([]);
+    const [commentsEnabled, setCommentsEnabled] = useState(true);
     const fetchVideoData = async() =>{
-    
+
     const VideoDetails_url = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=${videoId}&key=${API_KEY}`;
     await fetch(VideoDetails_url).then(res => res.json()).then(data => setApiData(data.items[0]));
     }
     useEffect(() =>{
         fetchVideoData();
-    },[])
+    },[videoId])
 
     const fetchOtherData = async() =>{
     const channelData_url = `https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&id=${apiData.snippet.channelId}&key=${API_KEY}`;
     await fetch(channelData_url).then(res => res.json()).then(data => setChannelData(data.items[0]));
 
-    //fetch comment data
-    const comment_url = `https://youtube.googleapis.com/youtube/v3/commentThreads?part=snippet%2Creplies&videoId=${videoId}&maxResults=50&key=${API_KEY}`
-    await fetch(comment_url).then(res => res.json()).then(data => setcommentData(data.items))
+    if (!apiData) return;
+    
+    const comment_url = `https://youtube.googleapis.com/youtube/v3/commentThreads?part=snippet%2Creplies&videoId=${videoId}&maxResults=50&key=${API_KEY}`;
+    
+    const res = await fetch(comment_url);
+    const data = await res.json();
+
+    if (res.status === 403) {
+        setCommentsEnabled(false);
+        setcommentData([]);
+    } else {
+        setCommentsEnabled(true);
+        setcommentData(data.items || []);
+    }
     }
        useEffect(() =>{
         fetchOtherData();
