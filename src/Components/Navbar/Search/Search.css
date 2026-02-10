@@ -1,0 +1,66 @@
+.search-results {
+    padding: 20px 5%;
+    background: var(--bg-color); /* We'll use this for Dark Mode later */
+    min-height: 100vh;
+}
+
+.search-card {
+    display: flex; /* Makes image and text sit side-by-side */
+    gap: 15px;
+    margin-bottom: 20px;
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+.search-card img {
+    width: 360px; /* Standard YouTube search thumbnail size */
+    border-radius: 12px;
+}
+
+.search-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.search-info h2 {
+    font-size: 1.2rem;
+    font-weight: 400;
+}
+
+.search-info .channel-name {
+    font-size: 0.9rem;
+    color: #606060;
+}
+
+.search-info .description {
+    font-size: 0.85rem;
+    color: #606060;
+    /* Limit description to 2 lines */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+/* For Tablets and smaller */
+@media (max-width: 900px) {
+    .search-card {
+        flex-direction: column; /* Stack thumbnail on top of text */
+    }
+    .search-card img {
+        width: 100%; /* Make image full width of the screen */
+        max-width: 100%;
+    }
+}
+@media (max-width: 600px) {
+    .nav-middle .search-box input {
+        display: none;
+    }
+    .nav-middle .search-box {
+        border: none;
+        background: transparent;
+    }
+    .nav-left .logo {
+        width: 100px; 
+    }
+}
